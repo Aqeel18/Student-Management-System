@@ -1,0 +1,12 @@
+db.sqlite3 
+__pycache__/ 
+*.pyc 
+*.pyo 
+*.log 
+*.pot 
+*.pyc 
+*.pyo 
+*.swp 
+.DS_Store 
+media/ 
+staticfiles/ 
