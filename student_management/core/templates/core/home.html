@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="main-wrapper">
+  {% if user.is_authenticated %}
+    <div class="card text-center">
+      <h2>Welcome, {{ user.get_full_name }}!</h2>
+      <p class="text-muted">Use the sidebar to navigate your student dashboard.</p>
+      <div class="alert alert-info mt-2">
+        🎉 This is your student dashboard. Here you’ll find your profile, exams, results, and more.
+      </div>
+      <!-- Future: Show cards for Exams, Marks, Notices etc. -->
+    </div>
+  {% else %}
+    <div class="card text-center">
+      <h2>Welcome to the Student Management System</h2>
+      <p class="lead">Please <a href="{% url 'login' %}">log in</a> to continue.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
