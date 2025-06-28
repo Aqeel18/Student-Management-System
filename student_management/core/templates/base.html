@@ -32,12 +32,12 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUser">
                                 <li>
-                                    <form method="POST" action="{% url 'logout' %}">
+                                    <form method="post" action="{% url 'logout' %}">
                                         {% csrf_token %}
                                         <button type="submit" class="dropdown-item">Logout</button>
                                     </form>
                                 </li>
-                            </ul>
+                            </ul>   
                         </li>
                     {% endwith %}
                 {% else %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome, {{ student.user.username }}</h2>
+{% if exam_results %}
+  <h3>Your Exam Results:</h3>
+  {% for exam, marks in exam_results.items %}
+    <h4>{{ exam }}</h4>
+    <ul>
+      {% for mark in marks %}
+        <li>{{ mark.subject.name }}: {{ mark.score }}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+{% else %}
+  <p>No exam results found.</p>
+{% endif %}
+{% endblock %}
