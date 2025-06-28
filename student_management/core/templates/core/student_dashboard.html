@@ -3,18 +3,37 @@
 {% block title %}Student Dashboard{% endblock %}
 
 {% block content %}
-<h2>Welcome, {{ student.user.username }}</h2>
-{% if exam_results %}
-  <h3>Your Exam Results:</h3>
-  {% for exam, marks in exam_results.items %}
-    <h4>{{ exam }}</h4>
-    <ul>
-      {% for mark in marks %}
-        <li>{{ mark.subject.name }}: {{ mark.score }}</li>
-      {% endfor %}
-    </ul>
-  {% endfor %}
-{% else %}
-  <p>No exam results found.</p>
-{% endif %}
+  <h2 class="mb-4">Welcome, {{ student.user.get_full_name }}</h2>
+
+  {% if exam_results %}
+    {% for exam, marks in exam_results.items %}
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          {{ exam.name }} ({{ exam.academic_year }}) — {{ exam.date }}
+        </div>
+        <div class="card-body">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Marks Obtained</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for mark in marks %}
+                <tr>
+                  <td>{{ mark.subject.name }}</td>
+                  <td>{{ mark.marks_obtained }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-info">
+      No exam results available yet.
+    </div>
+  {% endif %}
 {% endblock %}

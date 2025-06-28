@@ -12,17 +12,37 @@ class StudentAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'roll_number', 'id_number')
     list_filter = ('class_division',)
 
-# ✅ Exam Admin
+
+# ✅ Subject Admin (required for autocomplete in MarkAdmin)
+@admin.register(Subject)
+class SubjectAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+
+
+# ✅ Exam Admin (already configured correctly)
 @admin.register(Exam)
 class ExamAdmin(admin.ModelAdmin):
     list_display = ('name', 'academic_year', 'date')
     search_fields = ('name', 'academic_year')
     list_filter = ('academic_year',)
 
-# ✅ Register remaining models
+
+# ✅ Mark Admin (autocomplete + filters + usability)
+@admin.register(Mark)
+class MarkAdmin(admin.ModelAdmin):
+    list_display = ('student', 'subject', 'exam', 'marks_obtained')
+    search_fields = (
+        'student__user__username',
+        'student__roll_number',
+        'subject__name',
+        'exam__name',
+    )
+    list_filter = ('exam', 'subject')
+    autocomplete_fields = ('student', 'subject', 'exam')  # ✅ required related models must have search_fields
+
+
+# ✅ Register remaining models (no customization needed)
 admin.site.register(Class)
 admin.site.register(Division)
 admin.site.register(ClassDivision)
-admin.site.register(Subject)
 admin.site.register(DivisionSubject)
-admin.site.register(Mark)

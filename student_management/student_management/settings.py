@@ -121,9 +121,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/login/'  # Use your custom login page
 LOGIN_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-LOGOUT_REDIRECT_URL = '/admin/login/?next=/admin/'
+LOGOUT_REDIRECT_URL = '/admin/login/'
 

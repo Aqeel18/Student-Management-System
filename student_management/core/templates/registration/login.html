@@ -3,10 +3,10 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="main-wrapper">
-  <div class="form-container mx-auto" style="max-width: 400px;">
+<div class="main-wrapper d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="form-container shadow p-4 bg-white rounded" style="max-width: 400px; width: 100%;">
     <h2 class="mb-4 text-center">Student Login</h2>
-    
+
     {% if form.errors %}
       <div class="alert alert-danger">
         Invalid username or password.

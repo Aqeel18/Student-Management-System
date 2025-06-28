@@ -5,16 +5,13 @@ from django.http import HttpResponse
 from .models import Student, Mark
 from .forms import StudentProfileForm
 from django.contrib.auth import logout
-from django.views.decorators.http import require_POST
 
-@login_required
-@require_POST
 def custom_logout_view(request):
-    # NOTE: This view should only be used for student logout (not admin logout).
-    is_staff = request.user.is_staff or request.user.is_superuser
+    is_staff = request.user.is_staff
     logout(request)
+    
     if is_staff:
-        return redirect('/admin/login/?next=/admin/')
+        return redirect('/admin/login/')
     else:
         return redirect('/accounts/login/')
 
@@ -22,13 +19,14 @@ def custom_logout_view(request):
 
 @login_required
 def home_view(request):
-    # ✅ Always show the home page, regardless of user type
+    # ✅ If the user is admin/staff, redirect to the Django admin panel
+    if request.user.is_staff or request.user.is_superuser:
+        return redirect('/admin/')  # Or: reverse('admin:index')
+
+    # ✅ Try to load the student's dashboard
     try:
         student = request.user.student
     except Student.DoesNotExist:
-        # Optionally, show a different page for staff/superuser
-        if request.user.is_staff or request.user.is_superuser:
-            return HttpResponse("Welcome, admin user. No student profile is associated with your account.")
         return HttpResponse("Student profile not found. Please contact the administrator.")
 
     # ✅ Fetch marks grouped by exam
@@ -36,10 +34,10 @@ def home_view(request):
 
     exam_results = {}
     for mark in marks:
-        exam_name = mark.exam.name
-        if exam_name not in exam_results:
-            exam_results[exam_name] = []
-        exam_results[exam_name].append(mark)
+        exam = mark.exam
+        if exam not in exam_results:
+            exam_results[exam] = []
+        exam_results[exam].append(mark)
 
     return render(request, 'core/student_dashboard.html', {
         'student': student,

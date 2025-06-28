@@ -58,6 +58,9 @@ class Student(models.Model):
     alternate_email = models.EmailField(blank=True, null=True)
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
 
+    class Meta:
+        unique_together = ('roll_number', 'class_division')  # ✅ ENFORCES uniqueness within division
+
     def __str__(self):
         return f"{self.user.get_full_name()} - {self.class_division}"
 
