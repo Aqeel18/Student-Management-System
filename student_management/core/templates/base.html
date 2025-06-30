@@ -15,10 +15,12 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">SMS</a>
+
         <!-- Theme toggle button -->
         <button onclick="toggleTheme()" class="btn btn-secondary ms-2" type="button" style="min-width: 40px;" title="Toggle theme">
             <span class="bi bi-moon"></span> 🌓
         </button>
+
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
@@ -28,7 +30,15 @@
                                 {% if student.profile_photo %}
                                     <img src="{{ student.profile_photo.url }}" alt="Profile" class="rounded-circle me-2" height="30" width="30">
                                 {% endif %}
-                                <span>{{ user.get_short_name }}</span>
+                                <span>
+                                  {% with full_name=user.get_full_name %}
+                                    {% if full_name %}
+                                      {{ full_name }}
+                                    {% else %}
+                                      {{ user.username }}
+                                    {% endif %}
+                                  {% endwith %}
+                                </span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUser">
                                 <li>
@@ -60,6 +70,7 @@
             <div class="list-group">
                 <a href="{% url 'home' %}" class="list-group-item list-group-item-action">🏠 Dashboard</a>
                 <a href="{% url 'student-profile' %}" class="list-group-item list-group-item-action">📝 Update Profile</a>
+                <a href="{% url 'student-results' %}" class="list-group-item list-group-item-action">📊 View Results</a>
                 <!-- You can add more links here -->
             </div>
         </div>

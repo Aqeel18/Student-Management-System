@@ -59,10 +59,11 @@ class Student(models.Model):
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
 
     class Meta:
-        unique_together = ('roll_number', 'class_division')  # ✅ ENFORCES uniqueness within division
+        unique_together = ('roll_number', 'class_division')
 
     def __str__(self):
-        return f"{self.user.get_full_name()} - {self.class_division}"
+        name = self.user.get_full_name() or self.user.username
+        return f"{name} - {self.class_division}"
 
 # === Exams & Marks ===
 

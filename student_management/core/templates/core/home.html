@@ -5,7 +5,17 @@
 <div class="main-wrapper">
   {% if user.is_authenticated %}
     <div class="card text-center">
-      <h2>Welcome, {{ user.get_full_name }}!</h2>
+      <h2>
+        Welcome,
+        {% with full_name=user.get_full_name %}
+          {% if full_name %}
+            {{ full_name }}
+          {% else %}
+            {{ user.username }}
+          {% endif %}
+        {% endwith %}
+        !
+      </h2>
       <p class="text-muted">Use the sidebar to navigate your student dashboard.</p>
       <div class="alert alert-info mt-2">
         🎉 This is your student dashboard. Here you’ll find your profile, exams, results, and more.
