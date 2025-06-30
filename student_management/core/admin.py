@@ -39,6 +39,7 @@ class MarkAdmin(admin.ModelAdmin):
     )
     list_filter = ('exam', 'subject')
     autocomplete_fields = ('student', 'subject', 'exam')  # ✅ required related models must have search_fields
+    # change_form_template = 'admin/core/mark/change_form.html'  # Use custom Jet form template
 
 
 # ✅ Register remaining models (no customization needed)

@@ -5,6 +5,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')),  # Grappelli admin interface
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('accounts/', include('django.contrib.auth.urls')),  # For login/logout
@@ -12,5 +13,4 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
 
-# 👇 Add this block at the very bottom
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
