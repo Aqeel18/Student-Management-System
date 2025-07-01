@@ -1,0 +1,39 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block object-tools %}
+  <div class="object-tools">
+    <ul class="object-tools">
+      <li>
+        <a href="{% url 'admin:core_mark_bulk_entry' %}" class="addlink">Bulk Mark Entry</a>
+      </li>
+    </ul>
+  </div>
+  {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  {% if form %}
+    <h1>Bulk Mark Entry</h1>
+    <form method="post">{% csrf_token %}
+      {% if step == 1 %}
+        <p>Select a student and exam, then click Next.</p>
+        {{ form.student.label_tag }} {{ form.student }}<br><br>
+        {{ form.exam.label_tag }} {{ form.exam }}<br><br>
+        <button type="submit" class="default">Next</button>
+      {% elif step == 2 %}
+        {{ form.student }}
+        {{ form.exam }}
+        <h3>Enter marks for each subject:</h3>
+        {% for field in form %}
+          {% if 'subject_' in field.name %}
+            <div style="margin-bottom:10px;">{{ field.label_tag }} {{ field }}</div>
+          {% endif %}
+        {% endfor %}
+        <button type="submit" class="default">Save Marks</button>
+      {% endif %}
+    </form>
+  {% else %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}

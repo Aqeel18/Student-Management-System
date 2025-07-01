@@ -17,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',           # Your main app
+    'core.apps.CoreConfig',  # Use the AppConfig for core
 ]
 
 # === Middleware ===

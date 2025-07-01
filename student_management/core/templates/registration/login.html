@@ -7,10 +7,10 @@
   <div class="form-container shadow p-4 bg-white rounded" style="max-width: 400px; width: 100%;">
     <h2 class="mb-4 text-center">Student Login</h2>
 
-    {% if form.errors %}
-      <div class="alert alert-danger">
-        Invalid username or password.
-      </div>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
     {% endif %}
 
     <form method="post">

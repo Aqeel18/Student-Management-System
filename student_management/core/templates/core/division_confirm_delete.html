@@ -1,0 +1,11 @@
+{% extends "core/dashboardbase.html" %}
+{% block content %}
+<div class="container py-4">
+  <h2>Delete Division</h2>
+  <p>Are you sure you want to delete the division: <strong>{{ object.name }}</strong>?</p>
+  <form method="post">{% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'manage-divisions' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

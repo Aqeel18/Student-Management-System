@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# === Class & Division ===
+# === SchoolClass & Division ===
 
-class Class(models.Model):
+class SchoolClass(models.Model):
     name = models.CharField(max_length=20)  # e.g., "10th", "11th"
+    subjects = models.ManyToManyField('Subject', related_name="classes", blank=True)
 
     def __str__(self):
         return self.name
@@ -16,7 +17,7 @@ class Division(models.Model):
         return self.name
 
 class ClassDivision(models.Model):
-    student_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    student_class = models.ForeignKey(SchoolClass, on_delete=models.CASCADE)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
 
     class Meta:
@@ -28,11 +29,10 @@ class ClassDivision(models.Model):
 # === Subjects ===
 
 class Subject(models.Model):
-    name = models.CharField(max_length=100)
-    student_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return f"{self.name} ({self.student_class})"
+        return self.name
 
 class DivisionSubject(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)

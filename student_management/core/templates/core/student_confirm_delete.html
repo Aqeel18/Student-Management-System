@@ -1,0 +1,11 @@
+{% extends "core/dashboardbase.html" %}
+{% block content %}
+<div class="container py-4">
+  <h2>Delete Student</h2>
+  <p>Are you sure you want to delete the student: <strong>{{ object.user.get_full_name|default:object.user.username }}</strong>?</p>
+  <form method="post">{% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'manage-students' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

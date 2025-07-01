@@ -1,0 +1,32 @@
+{% extends "core/dashboardbase.html" %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Manage Class-Divisions</h2>
+    <a href="{% url 'add-classdivision' %}" class="btn btn-primary">Add Class-Division</a>
+  </div>
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Class</th>
+        <th>Division</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cd in classdivisions %}
+      <tr>
+        <td>{{ cd.student_class }}</td>
+        <td>{{ cd.division }}</td>
+        <td>
+          <a href="{% url 'edit-classdivision' cd.pk %}" class="btn btn-sm btn-warning">Edit</a>
+          <a href="{% url 'delete-classdivision' cd.pk %}" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="3">No class-divisions found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

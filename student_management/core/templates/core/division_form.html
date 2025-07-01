@@ -1,0 +1,11 @@
+{% extends "core/dashboardbase.html" %}
+{% block content %}
+<div class="container py-4">
+  <h2>{% if form.instance.pk %}Edit Division{% else %}Add Division{% endif %}</h2>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'manage-divisions' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}
