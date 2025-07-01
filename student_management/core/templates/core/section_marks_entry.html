@@ -1,0 +1,42 @@
+{% extends 'core/dashboardbase.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Enter Marks for Section: {{ section.school_class }} {{ section.division }}</h2>
+  <form method="get" class="mb-3">
+    <label for="exam">Select Exam:</label>
+    <select name="exam" id="exam" class="form-select w-auto d-inline-block">
+      <option value="">-- Select Exam --</option>
+      {% for exam in exams %}
+        <option value="{{ exam.pk }}" {% if selected_exam and exam.pk == selected_exam.pk %}selected{% endif %}>{{ exam.name }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Go</button>
+  </form>
+  {% if selected_exam %}
+  <h5>Exam: {{ selected_exam.name }}</h5>
+  {% if students %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in students %}
+      <tr>
+        <td>{{ student.name }} (Roll: {{ student.roll_number }})</td>
+        <td>
+          <a href="{% url 'student_mark_entry' student.id %}?exam={{ selected_exam.pk }}" class="btn btn-success btn-sm">Add Marks</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <div class="alert alert-warning">No students found in this section.</div>
+  {% endif %}
+  {% endif %}
+  <a href="{% url 'class_section_detail' section.pk %}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %}

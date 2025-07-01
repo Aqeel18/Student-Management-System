@@ -1,0 +1,18 @@
+{% extends 'core/dashboardbase.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Upload Marks via Excel</h2>
+  <form method="post" enctype="multipart/form-data" class="mb-4">
+    {% csrf_token %}
+    <div class="mb-3">
+      <input type="file" name="excel_file" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+  </form>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}

@@ -17,38 +17,26 @@
         <p class="alert alert-primary message custom-message px-3 mb-2">{{ message }}</p>
       {% endfor %}
     </div>
-    <div class="d-flex align-items-center justify-content-center vh-100">
-      <div class="sigin-container bg-white shadow rounded-4 p-5 w-100" style="max-width: 400px;">
-        <div class="pb-4">
-          <h3 class="text-center fw-bold mb-2">Admin Login</h3>
-          <p class="text-center text-muted mb-4">Sign in to access the admin dashboard</p>
-        </div>
-        <form method="post" action="">
+    <div class="main-wrapper d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+      <div class="form-container shadow p-4 bg-white rounded" style="max-width: 400px; width: 100%;">
+        <h2 class="mb-4 text-center">Admin Login</h2>
+        {% if form.errors %}
+          <div class="alert alert-danger">Invalid username or password.</div>
+        {% endif %}
+        <form method="post">
           {% csrf_token %}
           <div class="mb-3">
-            <input type="text" name="username" class="form-control" placeholder="Username or Email" required />
+            {{ form.username.label_tag }}
+            {{ form.username }}
           </div>
-          <div class="mb-4 position-relative">
-            <input type="password" name="password" class="form-control" id="password" placeholder="Password" required />
-            <span class="material-symbols-outlined position-absolute end-0 top-50 translate-middle-y me-3" style="cursor: pointer" onclick="togglePassword('password')">visibility</span>
+          <div class="mb-3">
+            {{ form.password.label_tag }}
+            {{ form.password }}
           </div>
-          <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
+          <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
       </div>
     </div>
-    <script>
-      function togglePassword(inputId) {
-        const passwordInput = document.getElementById(inputId);
-        const lockIcon = passwordInput.nextElementSibling;
-        if (passwordInput.type === "password") {
-          passwordInput.type = "text";
-          lockIcon.textContent = "visibility_off";
-        } else {
-          passwordInput.type = "password";
-          lockIcon.textContent = "visibility";
-        }
-      }
-    </script>
     <script src="{% static 'js/validation.js' %}"></script>
   </body>
 </html>

@@ -1,0 +1,53 @@
+{% extends 'core/dashboardbase.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Mark Reports</h2>
+  <form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+      <input type="text" name="student" class="form-control" placeholder="Student Name or Roll">
+    </div>
+    <div class="col-md-3">
+      <select name="exam" class="form-select">
+        <option value="">All Exams</option>
+        {% for exam in exams %}
+        <option value="{{ exam.pk }}">{{ exam.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select name="subject" class="form-select">
+        <option value="">All Subjects</option>
+        {% for subject in subjects %}
+        <option value="{{ subject.pk }}">{{ subject.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+  </form>
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Student</th>
+        <th>Exam</th>
+        <th>Subject</th>
+        <th>Marks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mark in marks %}
+      <tr>
+        <td>{{ mark.student.name }}</td>
+        <td>{{ mark.exam.name }}</td>
+        <td>{{ mark.subject.name }}</td>
+        <td>{{ mark.marks_obtained }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4">No marks found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="?export=csv" class="btn btn-outline-success mt-3">Export CSV</a>
+</div>
+{% endblock %}

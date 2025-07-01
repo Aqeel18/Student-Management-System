@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Class Section: {{ section.school_class.name }}{{ section.division.name }}</h2>
+  <p><strong>Teacher:</strong> {{ section.teacher.name }} ({{ section.teacher.email }})</p>
+  <h4>Students</h4>
+  <table class="table table-bordered table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Roll Number</th>
+        <th>Name</th>
+        <th>Mark Entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in students %}
+      <tr>
+        <td>{{ student.roll_number }}</td>
+        <td>{{ student.name }}</td>
+        <td><a href="{% url 'student_mark_entry' student.id %}" class="btn btn-sm btn-success">Enter Marks</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h4>Subjects</h4>
+  <ul>
+    {% for subject in subjects %}
+      <li>{{ subject.name }}</li>
+    {% endfor %}
+  </ul>
+  <h4>Exams</h4>
+  <ul>
+    {% for exam in exams %}
+      <li>{{ exam.name }} ({{ exam.date }})</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

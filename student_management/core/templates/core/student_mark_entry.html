@@ -1,0 +1,33 @@
+{% extends 'core/dashboardbase.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Enter Marks for {{ student.name }} (Roll: {{ student.roll_number }})</h2>
+  {% if selected_exam %}
+    <h5>Exam: {{ selected_exam.name }}</h5>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="exam" value="{{ selected_exam.pk }}">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Marks Obtained</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for field in form.visible_fields %}
+          <tr>
+            <td>{{ field.label }}</td>
+            <td>{{ field }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-success">Save Marks</button>
+      <a href="{% url 'section_marks_entry' student.class_section.pk %}?exam={{ selected_exam.pk }}" class="btn btn-secondary">Cancel</a>
+    </form>
+  {% else %}
+    <div class="alert alert-warning">No exam selected.</div>
+  {% endif %}
+</div>
+{% endblock %}

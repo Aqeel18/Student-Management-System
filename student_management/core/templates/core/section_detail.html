@@ -1,0 +1,20 @@
+{% extends 'core/dashboardbase.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Section Detail</h2>
+  <div class="mb-3">
+    <strong>Class:</strong> {{ section.school_class }}<br>
+    <strong>Division:</strong> {{ section.division }}<br>
+    <strong>Teacher:</strong> {{ section.teacher }}
+  </div>
+  <h4>Students</h4>
+  <ul>
+    {% for student in students %}
+      <li>{{ student.name }} (Roll: {{ student.roll_number }})</li>
+    {% empty %}
+      <li>No students in this section.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'section_marks_entry' section.pk %}" class="btn btn-primary mt-3">Enter Marks</a>
+</div>
+{% endblock %}

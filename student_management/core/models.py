@@ -3,9 +3,8 @@ from django.contrib.auth.models import User
 
 # === SchoolClass & Division ===
 
-class SchoolClass(models.Model):
-    name = models.CharField(max_length=20)  # e.g., "10th", "11th"
-    subjects = models.ManyToManyField('Subject', related_name="classes", blank=True)
+class Class(models.Model):
+    name = models.CharField(max_length=20)  # e.g., "10", "12"
 
     def __str__(self):
         return self.name
@@ -16,73 +15,61 @@ class Division(models.Model):
     def __str__(self):
         return self.name
 
-class ClassDivision(models.Model):
-    student_class = models.ForeignKey(SchoolClass, on_delete=models.CASCADE)
-    division = models.ForeignKey(Division, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('student_class', 'division')
-
-    def __str__(self):
-        return f"{self.student_class.name}{self.division.name}"
-
-# === Subjects ===
-
-class Subject(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+class Teacher(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
 
     def __str__(self):
         return self.name
 
-class DivisionSubject(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    class_division = models.ForeignKey(ClassDivision, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('subject', 'class_division')
+class ClassSection(models.Model):
+    school_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    division = models.ForeignKey(Division, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
+    subjects = models.ManyToManyField('Subject', blank=True, related_name='class_sections')
 
     def __str__(self):
-        return f"{self.subject.name} - {self.class_division}"
+        return f"{self.school_class.name}{self.division.name}"
+
+# === Subjects ===
+
+class Subject(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 # === Student ===
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
+    name = models.CharField(max_length=100)
     roll_number = models.CharField(max_length=20)
-    class_division = models.ForeignKey(ClassDivision, on_delete=models.SET_NULL, null=True)
-    id_number = models.CharField(max_length=20, unique=True)
-
-    # Personal details
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-    alternate_email = models.EmailField(blank=True, null=True)
+    class_section = models.ForeignKey(ClassSection, on_delete=models.CASCADE)
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
-
-    class Meta:
-        unique_together = ('roll_number', 'class_division')
+    date_of_birth = models.DateField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    guardian_name = models.CharField(max_length=100, blank=True, null=True)
+    guardian_phone = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        name = self.user.get_full_name() or self.user.username
-        return f"{name} - {self.class_division}"
+        return f"{self.roll_number} - {self.name}"
 
 # === Exams & Marks ===
 
 class Exam(models.Model):
     name = models.CharField(max_length=100)
     date = models.DateField()
-    academic_year = models.CharField(max_length=9)  # e.g., "2024-2025"
 
     def __str__(self):
-        return f"{self.name} ({self.academic_year})"
+        return self.name
 
 class Mark(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     marks_obtained = models.FloatField()
 
-    class Meta:
-        unique_together = ('student', 'subject', 'exam')
-
     def __str__(self):
-        return f"{self.student} - {self.subject} - {self.exam}: {self.marks_obtained}"
+        return f"{self.student.name} - {self.subject.name} - {self.marks_obtained}"

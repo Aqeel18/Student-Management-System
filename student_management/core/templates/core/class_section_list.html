@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Class Sections</h2>
+  <table class="table table-bordered table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Class</th>
+        <th>Division</th>
+        <th>Teacher</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for section in sections %}
+      <tr>
+        <td>{{ section.school_class.name }}</td>
+        <td>{{ section.division.name }}</td>
+        <td>{{ section.teacher.name }}</td>
+        <td><a href="{% url 'class_section_detail' section.id %}" class="btn btn-sm btn-primary">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

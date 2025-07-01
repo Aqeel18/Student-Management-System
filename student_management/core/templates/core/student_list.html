@@ -3,32 +3,30 @@
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Manage Students</h2>
-    <a href="{% url 'add-student' %}" class="btn btn-primary">Add Student</a>
+    <a href="{% url 'student_create' %}" class="btn btn-primary">Add Student</a>
   </div>
   <table class="table table-bordered table-hover">
     <thead class="table-light">
       <tr>
         <th>Name</th>
         <th>Roll Number</th>
-        <th>Class/Division</th>
-        <th>ID Number</th>
+        <th>Class Section</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       {% for student in students %}
       <tr>
-        <td>{{ student.user.get_full_name|default:student.user.username }}</td>
+        <td>{{ student.name }}</td>
         <td>{{ student.roll_number }}</td>
-        <td>{{ student.class_division }}</td>
-        <td>{{ student.id_number }}</td>
+        <td>{{ student.class_section }}</td>
         <td>
-          <a href="{% url 'edit-student' student.pk %}" class="btn btn-sm btn-warning">Edit</a>
-          <a href="{% url 'delete-student' student.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          <a href="{% url 'student_edit' student.pk %}" class="btn btn-sm btn-warning">Edit</a>
+          <a href="{% url 'student_delete' student.pk %}" class="btn btn-sm btn-danger">Delete</a>
         </td>
       </tr>
       {% empty %}
-      <tr><td colspan="5">No students found.</td></tr>
+      <tr><td colspan="4">No students found.</td></tr>
       {% endfor %}
     </tbody>
   </table>

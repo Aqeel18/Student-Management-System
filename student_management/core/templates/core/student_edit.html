@@ -1,0 +1,15 @@
+{% extends 'core/dashboardbase.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>{% if is_create %}Add Student{% else %}Edit Student{% endif %}</h2>
+  <form method="post" class="mt-4">
+    {% csrf_token %}
+    <h4>User Account</h4>
+    {{ user_form.as_p }}
+    <h4>Student Details</h4>
+    {{ student_form.as_p }}
+    <button type="submit" class="btn btn-success">{% if is_create %}Add{% else %}Update{% endif %} Student</button>
+    <a href="{% url 'student_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

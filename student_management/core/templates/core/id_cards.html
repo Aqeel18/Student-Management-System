@@ -1,0 +1,35 @@
+{% extends 'core/dashboardbase.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Student ID Cards</h2>
+  <form method="get" class="mb-4">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-4">
+        <select name="class_section" class="form-select">
+          <option value="">Select Section</option>
+          {% for section in sections %}
+          <option value="{{ section.pk }}">{{ section }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary">Show ID Cards</button>
+      </div>
+    </div>
+  </form>
+  <div class="row mt-4">
+    {% for student in students %}
+    <div class="col-md-3 mb-4">
+      <div class="card border-primary">
+        <div class="card-body">
+          <h5 class="card-title">{{ student.name }}</h5>
+          <p class="card-text">Roll: {{ student.roll_number }}<br>Section: {{ student.class_section }}</p>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12"><div class="alert alert-info">No students found for this section.</div></div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
